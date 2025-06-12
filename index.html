@@ -1,10 +1,11 @@
 
 <!DOCTYPE html>
+
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Yundesign 견적 계산기</title>
-  <style>
+<meta charset="utf-8"/>
+<title>Yundesign 견적 계산기</title>
+<style>
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
@@ -59,42 +60,36 @@
   </style>
 </head>
 <body>
-  <h2>Yundesign 견적 계산기</h2>
-
-  <div class="row">
-    <div class="col">
-      <label>원가 ($)</label>
-      <input type="number" id="cost">
-    </div>
-    <div class="col">
-      <label>디자인비 ($)</label>
-      <input type="number" id="design">
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <label>무게 (kg)</label>
-      <input type="number" id="weight" step="0.1" onchange="autofillShipping()">
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <label>항공배송비 (한국 → 호주) ($)</label>
-      <input type="number" id="intlShipping">
-    </div>
-    <div class="col">
-      <label>호주내 배송비 ($)</label>
-      <input type="number" id="ausShipping">
-    </div>
-  </div>
-
-  <button onclick="calculate()">계산하기</button>
-
-  <h4 id="result"></h4>
-
-  <script>
+<h2>Yundesign 견적 계산기</h2>
+<div class="row">
+<div class="col">
+<label>원가 ($)</label>
+<input id="cost" type="number"/>
+</div>
+<div class="col">
+<label>디자인비 ($)</label>
+<input id="design" type="number"/>
+</div>
+</div>
+<div class="row">
+<div class="col">
+<label>무게 (kg)</label>
+<input id="weight" onchange="autofillShipping()" step="0.1" type="number"/>
+</div>
+</div>
+<div class="row">
+<div class="col">
+<label>항공배송비 (한국 → 호주) ($)</label>
+<input id="intlShipping" type="number"/>
+</div>
+<div class="col">
+<label>호주내 배송비 ($)</label>
+<input id="ausShipping" type="number"/>
+</div>
+</div>
+<button onclick="calculate()">계산하기</button>
+<h4 id="result"></h4>
+<script>
     const emsRates = {
       0.5: 32.20, 1: 40.25, 2: 51.75, 3: 63.25, 4: 74.75,
       5: 86.25, 6: 97.75, 7: 109.25, 8: 120.75, 9: 132.25, 10: 143.75
@@ -149,5 +144,47 @@
 👉 최종 가격: $${finalPrice.toFixed(2)}`;
     }
   </script>
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
+<div>
+<h4>항공 배송비 (한국 → 호주)</h4>
+<table>
+<tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
+<tr><td>0.5</td><td>32.20</td></tr>
+<tr><td>1</td><td>40.25</td></tr>
+<tr><td>2</td><td>51.75</td></tr>
+<tr><td>3</td><td>63.25</td></tr>
+<tr><td>4</td><td>74.75</td></tr>
+<tr><td>5</td><td>86.25</td></tr>
+<tr><td>6</td><td>97.75</td></tr>
+<tr><td>7</td><td>109.25</td></tr>
+<tr><td>8</td><td>120.75</td></tr>
+<tr><td>9</td><td>132.25</td></tr>
+<tr><td>10</td><td>143.75</td></tr>
+</table>
+</div>
+<div>
+<h4>호주내 배송비</h4>
+<table>
+<tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
+<tr><td>0.5</td><td>8.50</td></tr>
+<tr><td>1</td><td>10.00</td></tr>
+<tr><td>2</td><td>12.00</td></tr>
+<tr><td>3</td><td>14.00</td></tr>
+<tr><td>4</td><td>16.00</td></tr>
+<tr><td>5</td><td>18.00</td></tr>
+<tr><td>6</td><td>20.00</td></tr>
+<tr><td>7</td><td>22.00</td></tr>
+<tr><td>8</td><td>24.00</td></tr>
+<tr><td>9</td><td>26.00</td></tr>
+<tr><td>10</td><td>28.00</td></tr>
+</table>
+</div>
+</div>
+<div style="margin-top: 30px;">
+<a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank">
+<img alt="Pay with Stripe" src="https://stripe.com/img/v3/newsroom/social.png" width="180"/>
+</a>
+</div>
+
 </body>
 </html>
