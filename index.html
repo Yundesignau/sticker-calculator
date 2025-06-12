@@ -113,7 +113,7 @@
 
       const baseCost = cost + design;
       const marginRate = getMarginRate(baseCost);
-      const finalPrice = baseCost * (1 + marginRate) + shipping;
+      const finalPrice = baseCost * (1 + marginRate) + (shipping * 2);
 
       document.getElementById("result").innerText =
         `원가: $${cost.toFixed(2)}, 디자인비: $${design.toFixed(2)}, 무게: ${weight.toFixed(1)}kg, 배송비: $${shipping.toFixed(2)}\n마진: ${Math.round(marginRate * 100)}%\n👉 소비자 가격: $${finalPrice.toFixed(2)}`;
