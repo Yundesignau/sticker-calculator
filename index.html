@@ -14,9 +14,10 @@
     }
     input {
       padding: 8px;
-      width: 48%;
+      width: 100%;
       margin-bottom: 10px;
       font-size: 16px;
+      box-sizing: border-box;
     }
     button {
       padding: 12px 24px;
@@ -26,6 +27,7 @@
       border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
+      margin-top: 10px;
     }
     table {
       width: 48%;
@@ -49,6 +51,7 @@
       display: flex;
       gap: 10px;
       justify-content: center;
+      margin-bottom: 10px;
     }
     .col {
       flex: 1;
@@ -58,17 +61,25 @@
 <body>
   <h2>Yundesign 견적 계산기</h2>
 
-  <label>원가 ($)</label>
-  <input type="number" id="cost"><br>
-
-  <label>디자인비 ($)</label>
-  <input type="number" id="design"><br>
+  <div class="row">
+    <div class="col">
+      <label>원가 ($)</label>
+      <input type="number" id="cost">
+    </div>
+    <div class="col">
+      <label>디자인비 ($)</label>
+      <input type="number" id="design">
+    </div>
+  </div>
 
   <div class="row">
     <div class="col">
       <label>무게 (kg)</label>
       <input type="number" id="weight" step="0.1" onchange="autofillShipping()">
     </div>
+  </div>
+
+  <div class="row">
     <div class="col">
       <label>항공배송비 (한국 → 호주) ($)</label>
       <input type="number" id="intlShipping">
@@ -77,7 +88,7 @@
       <label>호주내 배송비 ($)</label>
       <input type="number" id="ausShipping">
     </div>
-  </div><br>
+  </div>
 
   <button onclick="calculate()">계산하기</button>
 
@@ -93,14 +104,6 @@
       5: 18.00, 6: 20.00, 7: 22.00, 8: 24.00, 9: 26.00, 10: 28.00
     };
 
-    function getMarginRate(baseCost) {
-      if (baseCost < 100) return 0.8;
-      else if (baseCost < 200) return 0.7;
-      else if (baseCost < 300) return 0.6;
-      else if (baseCost < 400) return 0.5;
-      else return 0.4;
-    }
-
     function getShippingCost(weight, rates) {
       let closest = 0;
       for (let w in rates) {
@@ -110,6 +113,14 @@
         }
       }
       return closest > 0 ? rates[closest] : 0;
+    }
+
+    function getMarginRate(baseCost) {
+      if (baseCost < 100) return 0.8;
+      else if (baseCost < 200) return 0.7;
+      else if (baseCost < 300) return 0.6;
+      else if (baseCost < 400) return 0.5;
+      else return 0.4;
     }
 
     function autofillShipping() {
@@ -138,19 +149,5 @@
 👉 최종 가격: $${finalPrice.toFixed(2)}`;
     }
   </script>
-
-  <div class="row">
-    <table>
-      <tr><th colspan="2">📦 한국 → 호주 EMS 요금표</th></tr>
-      <tr><th>무게 (kg)</th><th>요금 (AUD)</th></tr>
-      ${Object.entries(emsRates).map(([kg, price]) => `<tr><td>${kg}</td><td>$${price.toFixed(2)}</td></tr>`).join('')}
-    </table>
-
-    <table>
-      <tr><th colspan="2">🚚 호주내 배송 요금표</th></tr>
-      <tr><th>무게 (kg)</th><th>요금 (AUD)</th></tr>
-      ${Object.entries(aus_shipping_rates).map(([kg, price]) => `<tr><td>${kg}</td><td>$${price.toFixed(2)}</td></tr>`).join('')}
-    </table>
-  </div>
 </body>
 </html>
