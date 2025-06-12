@@ -144,9 +144,32 @@
 👉 최종 가격: $${finalPrice.toFixed(2)}`;
     }
   </script>
-<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
-<div>
-<h4>항공 배송비 (한국 → 호주)</h4>
+<style>
+  .table-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  .table-box {
+    flex: 1 1 300px;
+    max-width: 500px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    text-align: center;
+  }
+</style>
+<div class="table-container">
+<div class="table-box">
+<h4>항공 배송비 (호주 → 한국)</h4>
 <table>
 <tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
 <tr><td>0.5</td><td>32.20</td></tr>
@@ -162,22 +185,33 @@
 <tr><td>10</td><td>143.75</td></tr>
 </table>
 </div>
-<div>
+<div class="table-box">
 <h4>호주내 배송비</h4>
 <table>
 <tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
-<tr><td>0.5</td><td>8.50</td></tr>
-<tr><td>1</td><td>10.00</td></tr>
-<tr><td>2</td><td>12.00</td></tr>
-<tr><td>3</td><td>14.00</td></tr>
-<tr><td>4</td><td>16.00</td></tr>
-<tr><td>5</td><td>18.00</td></tr>
-<tr><td>6</td><td>20.00</td></tr>
-<tr><td>7</td><td>22.00</td></tr>
-<tr><td>8</td><td>24.00</td></tr>
-<tr><td>9</td><td>26.00</td></tr>
-<tr><td>10</td><td>28.00</td></tr>
+<tr><td>0.5</td><td>9.70</td></tr>
+<tr><td>1</td><td>12.45</td></tr>
+<tr><td>2</td><td>15.70</td></tr>
+<tr><td>3</td><td>18.95</td></tr>
+<tr><td>4</td><td>22.20</td></tr>
+<tr><td>5</td><td>25.45</td></tr>
+<tr><td>6</td><td>28.70</td></tr>
+<tr><td>7</td><td>31.95</td></tr>
+<tr><td>8</td><td>35.20</td></tr>
+<tr><td>9</td><td>38.45</td></tr>
+<tr><td>10</td><td>41.70</td></tr>
 </table>
+</div>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
+<div>
+<h4>항공 배송비 (한국 → 호주)</h4>
+
+</div>
+<div>
+<h4>호주내 배송비</h4>
+
 </div>
 </div>
 <div style="margin-top: 30px;">
@@ -185,6 +219,5 @@
 <img alt="Pay with Stripe" src="https://stripe.com/img/v3/newsroom/social.png" width="180"/>
 </a>
 </div>
-
 </body>
 </html>
