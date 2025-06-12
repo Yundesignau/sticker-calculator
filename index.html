@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
-<meta charset="utf-8"/>
-<title>Yundesign 견적 계산기</title>
-<style>
+  <meta charset="utf-8"/>
+  <title>Yundesign 견적 계산기</title>
+  <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
@@ -44,45 +42,133 @@
       font-weight: bold;
       color: #333;
     }
+    table {
+      margin: 40px auto;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #999;
+      padding: 8px 12px;
+    }
   </style>
 </head>
 <body>
+
 <h2>Yundesign 견적 계산기</h2>
 <form onsubmit="event.preventDefault(); calculate();">
-<div class="form-row">
-<label for="cost">원가 ($)</label>
-<input id="cost" step="0.01" type="number"/>
-</div>
-<div class="form-row">
-<label for="design">디자인비용 ($)</label>
-<input id="design" step="0.01" type="number"/>
-</div>
-<div class="form-row">
-<label for="weight">배송 무게 (kg)</label>
-<input id="weight" step="0.1" type="number"/>
-</div>
-<button type="submit">계산하기</button>
-<div class="result-box" id="result"></div><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"><img alt="Stripe" src="https://logos-world.net/wp-content/uploads/2021/03/Stripe-Logo.png" style="width: 140px; display: block; margin: 16px auto;"/></a></div><div style="margin-top:20px; text-align:center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"></a></div><div style="margin-top:20px;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"></a></div>
+  <div class="form-row">
+    <label for="cost">원가 ($)</label>
+    <input id="cost" step="0.01" type="number"/>
+  </div>
+  <div class="form-row">
+    <label for="design">디자인비용 ($)</label>
+    <input id="design" step="0.01" type="number"/>
+  </div>
+  <div class="form-row">
+    <label for="width">📏 가로 × 세로 (mm)</label>
+    <input id="width" type="number" placeholder="가로(mm)" style="width:95px; margin-right:10px;"/>
+    <input id="height" type="number" placeholder="세로(mm)" style="width:95px;"/>
+  </div>
+  <div class="form-row">
+    <label for="gsm">📄 용지 그란수 (g/m²)</label>
+    <input id="gsm" type="number" placeholder="예: 250"/>
+  </div>
+  <div class="form-row">
+    <label for="quantity">🔢 수량 (매)</label>
+    <input id="quantity" type="number" placeholder="예: 1000"/>
+  </div>
+  <button type="submit">계산하기</button>
+  <div class="result-box" id="result"></div>
 </form>
+
+<div style="margin: 40px auto; text-align: center;">
+  
+</div>
+
+<div style="margin: 40px auto; text-align: center;">
+  <a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank">
+    <img src="https://stripe.com/img/v3/home/social.png" alt="Stripe" style="max-width: 160px;">
+  </a>
+</div>
+
+<h3>📦 한국 → 호주 배송 요금표</h3>
+<table>
+  <tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
+  <tr><td>0.5</td><td>48.30</td></tr>
+  <tr><td>1</td><td>60.38</td></tr>
+  <tr><td>2</td><td>77.62</td></tr>
+  <tr><td>3</td><td>94.88</td></tr>
+  <tr><td>4</td><td>112.12</td></tr>
+  <tr><td>5</td><td>129.38</td></tr>
+  <tr><td>6</td><td>146.62</td></tr>
+  <tr><td>7</td><td>163.88</td></tr>
+  <tr><td>8</td><td>181.12</td></tr>
+  <tr><td>9</td><td>198.38</td></tr>
+  <tr><td>10</td><td>215.62</td></tr>
+</table>
+
+<h3>🚚 호주 내 배송 요금표 (Australia Post 기준)</h3>
+<table>
+  <tr><th>호수</th><th>무게</th><th>규격 (cm)</th><th>요금 ($)</th></tr>
+  <tr><td>1호</td><td>1KG</td><td>22×19×9 (50CM)</td><td>14.80</td></tr>
+  <tr><td>2호</td><td>2KG</td><td>27×18×15 (60CM)</td><td>17.14</td></tr>
+  <tr><td>3호</td><td>3KG</td><td>34×25×21 (80CM)</td><td>19.82</td></tr>
+  <tr><td>4호</td><td>6KG</td><td>41×31×28 (100CM)</td><td>24.56</td></tr>
+  <tr><td>5호</td><td>11KG</td><td>48×38×34 (120CM)</td><td>32.83</td></tr>
+  <tr><td>6호</td><td>17KG</td><td>52×48×40 (140CM)</td><td>43.47</td></tr>
+</table>
+
 <script>
+function calculate() {
+  const cost = parseFloat(document.getElementById('cost').value) || 0;
+  const design = parseFloat(document.getElementById('design').value) || 0;
+  const width = parseFloat(document.getElementById('width').value) || 0;
+  const height = parseFloat(document.getElementById('height').value) || 0;
+  const gsm = parseFloat(document.getElementById('gsm').value) || 0;
+  const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+
+  const areaPerSheetM2 = (width * height) / 1000000; // mm² to m²
+  const weightKgRaw = (areaPerSheetM2 * gsm * quantity) / 1000;
+  const weightKg = weightKgRaw * 1.1; // g to kg
+
+  let marginRate = 0.9;
+  if (cost >= 100 && cost < 200) marginRate = 0.8;
+  else if (cost >= 200 && cost < 300) marginRate = 0.7;
+  else if (cost >= 300 && cost < 400) marginRate = 0.6;
+  else if (cost >= 400) marginRate = 0.5;
+
+  const koreaShipping = getKoreaShipping(Math.ceil(weightKg));
+  const ausShipping = getAusShipping(Math.ceil(weightKg));
+  const totalShipping = koreaShipping + ausShipping;
+
+  const finalPrice = (cost * (1 + marginRate)) + design + (totalShipping > 0 ? totalShipping : 0);
+
+  let resultText = `최종 소비자 가격: $${finalPrice.toFixed(2)}`;
+  const marginProfit = (cost * marginRate);
+  resultText += `<br>예상 마진 금액: $${marginProfit.toFixed(2)}`;
+  resultText += `<br>예상 총 무게 (10% 여유 포함): ${weightKg.toFixed(2)} kg`;
+  if (totalShipping > 0) {
+    resultText += `<br>배송비 - 한국: $${koreaShipping.toFixed(2)}, 호주: $${ausShipping.toFixed(2)}`;
+  }
+  document.getElementById("result").innerHTML = resultText;
+}
+
 function getKoreaShipping(weight) {
-  if (weight <= 0) return 0;
-  if (weight <= 0.5) return 32.20;
-  if (weight <= 1) return 40.25;
-  if (weight <= 2) return 51.75;
-  if (weight <= 3) return 63.25;
-  if (weight <= 4) return 74.75;
-  if (weight <= 5) return 86.25;
-  if (weight <= 6) return 97.75;
-  if (weight <= 7) return 109.25;
-  if (weight <= 8) return 120.75;
-  if (weight <= 9) return 132.25;
-  if (weight <= 10) return 143.75;
+  if (weight <= 0.5) return 62.79;
+  if (weight <= 1) return 78.49;
+  if (weight <= 2) return 100.91;
+  if (weight <= 3) return 123.34;
+  if (weight <= 4) return 145.76;
+  if (weight <= 5) return 168.19;
+  if (weight <= 6) return 190.61;
+  if (weight <= 7) return 213.04;
+  if (weight <= 8) return 235.46;
+  if (weight <= 9) return 257.89;
+  if (weight <= 10) return 280.31;
   return 0;
 }
 
 function getAusShipping(weight) {
-  if (weight <= 0) return 0;
   if (weight <= 1) return 14.80;
   if (weight <= 2) return 17.14;
   if (weight <= 3) return 19.82;
@@ -91,56 +177,6 @@ function getAusShipping(weight) {
   if (weight <= 17) return 43.47;
   return 0;
 }
-
-function calculate() {
-  const cost = parseFloat(document.getElementById('cost').value) || 0;
-  const design = parseFloat(document.getElementById('design').value) || 0;
-  const weight = parseFloat(document.getElementById('weight').value) || 0;
-
-  let marginRate = 0.8;
-  if (cost >= 100 && cost < 200) marginRate = 0.7;
-  else if (cost >= 200 && cost < 300) marginRate = 0.6;
-  else if (cost >= 300 && cost < 400) marginRate = 0.5;
-  else if (cost >= 400) marginRate = 0.4;
-
-  const koreaShipping = getKoreaShipping(weight);
-  const ausShipping = getAusShipping(weight);
-
-  const totalShipping = (koreaShipping > 0 ? koreaShipping : 0) + (ausShipping > 0 ? ausShipping : 0);
-  const finalPrice = (cost + design) * (1 + marginRate) + totalShipping;
-
-  let resultText = `최종 소비자 가격: $${finalPrice.toFixed(2)}`;
-  if (totalShipping > 0) {
-    resultText += ` (항공배송: $${koreaShipping.toFixed(2)}, 호주내 배송: $${ausShipping.toFixed(2)})`;
-  }
-
-  document.getElementById("result").innerHTML = resultText;
-}
 </script>
-<h3 style="margin-top:40px;">📦 한국 → 호주 배송 요금표</h3>
-<table border="1" style="margin: 0 auto; border-collapse: collapse;">
-<tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
-<tr><td>0.5</td><td>32.20</td></tr>
-<tr><td>1</td><td>40.25</td></tr>
-<tr><td>2</td><td>51.75</td></tr>
-<tr><td>3</td><td>63.25</td></tr>
-<tr><td>4</td><td>74.75</td></tr>
-<tr><td>5</td><td>86.25</td></tr>
-<tr><td>6</td><td>97.75</td></tr>
-<tr><td>7</td><td>109.25</td></tr>
-<tr><td>8</td><td>120.75</td></tr>
-<tr><td>9</td><td>132.25</td></tr>
-<tr><td>10</td><td>143.75</td></tr>
-</table>
-<h3 style="margin-top:30px;">🚚 호주 내 배송 요금표 (Australia Post 기준)</h3>
-<table border="1" style="margin: 0 auto; border-collapse: collapse;">
-<tr><th>사이즈</th><th>무게</th><th>규격</th><th>요금 ($)</th></tr>
-<tr><td>1호</td><td>1KG</td><td>22*19*9 (50CM)</td><td>14.80</td></tr>
-<tr><td>2호</td><td>2KG</td><td>27*18*15 (60CM)</td><td>17.14</td></tr>
-<tr><td>3호</td><td>3KG</td><td>34*25*21 (80CM)</td><td>19.82</td></tr>
-<tr><td>4호</td><td>6KG</td><td>41*31*28 (100CM)</td><td>24.56</td></tr>
-<tr><td>5호</td><td>11KG</td><td>48*38*34 (120CM)</td><td>32.83</td></tr>
-<tr><td>6호</td><td>17KG</td><td>52*48*40 (140CM)</td><td>43.47</td></tr>
-</table>
 </body>
 </html>
