@@ -3,18 +3,18 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Yundesign Quote</title>
+  <title>Yundesign 견적 계산기</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
       padding: 20px;
-      max-width: 500px;
+      max-width: 700px;
       margin: auto;
     }
     input {
       padding: 8px;
-      width: 100%;
+      width: 48%;
       margin-bottom: 10px;
       font-size: 16px;
     }
@@ -28,9 +28,11 @@
       cursor: pointer;
     }
     table {
-      width: 100%;
+      width: 48%;
       border-collapse: collapse;
-      margin-top: 30px;
+      margin: 20px 1%;
+      display: inline-block;
+      vertical-align: top;
     }
     th, td {
       border: 1px solid #ddd;
@@ -43,34 +45,81 @@
     h2 {
       margin-bottom: 5px;
     }
+    .row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .col {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
   <h2>Yundesign 견적 계산기</h2>
 
-  <label>원가 (인쇄) ($)</label>
+  <label>원가 ($)</label>
   <input type="number" id="cost"><br>
 
   <label>디자인비 ($)</label>
   <input type="number" id="design"><br>
 
-  <label>항공배송비 (한국 → 호주) ($)</label>
-  <input type="number" id="intlShipping"><br>
-
-  <label>호주내 배송비 ($)</label>
-  <input type="number" id="ausShipping"><br>
+  <div class="row">
+    <div class="col">
+      <label>무게 (kg)</label>
+      <input type="number" id="weight" step="0.1" onchange="autofillShipping()">
+    </div>
+    <div class="col">
+      <label>항공배송비 (한국 → 호주) ($)</label>
+      <input type="number" id="intlShipping">
+    </div>
+    <div class="col">
+      <label>호주내 배송비 ($)</label>
+      <input type="number" id="ausShipping">
+    </div>
+  </div><br>
 
   <button onclick="calculate()">계산하기</button>
 
   <h4 id="result"></h4>
 
   <script>
+    const emsRates = {
+      0.5: 32.20, 1: 40.25, 2: 51.75, 3: 63.25, 4: 74.75,
+      5: 86.25, 6: 97.75, 7: 109.25, 8: 120.75, 9: 132.25, 10: 143.75
+    };
+    const ausRates = {
+      0.5: 8.50, 1: 10.00, 2: 12.00, 3: 14.00, 4: 16.00,
+      5: 18.00, 6: 20.00, 7: 22.00, 8: 24.00, 9: 26.00, 10: 28.00
+    };
+
     function getMarginRate(baseCost) {
       if (baseCost < 100) return 0.8;
       else if (baseCost < 200) return 0.7;
       else if (baseCost < 300) return 0.6;
       else if (baseCost < 400) return 0.5;
       else return 0.4;
+    }
+
+    function getShippingCost(weight, rates) {
+      let closest = 0;
+      for (let w in rates) {
+        if (weight <= parseFloat(w)) {
+          closest = w;
+          break;
+        }
+      }
+      return closest > 0 ? rates[closest] : 0;
+    }
+
+    function autofillShipping() {
+      const weight = parseFloat(document.getElementById("weight").value);
+      if (!isNaN(weight)) {
+        const intl = getShippingCost(weight, emsRates);
+        const aus = getShippingCost(weight, ausRates);
+        document.getElementById("intlShipping").value = intl;
+        document.getElementById("ausShipping").value = aus;
+      }
     }
 
     function calculate() {
@@ -81,7 +130,7 @@
 
       const baseCost = cost + design;
       const marginRate = getMarginRate(baseCost);
-      const shippingTotal = (intlShipping || 0) + (ausShipping || 0);
+      const shippingTotal = (intlShipping > 0 ? intlShipping : 0) + (ausShipping > 0 ? ausShipping : 0);
       const finalPrice = baseCost * (1 + marginRate) + shippingTotal;
 
       document.getElementById('result').innerText =
@@ -90,20 +139,18 @@
     }
   </script>
 
-  <h3>한국 → 호주 EMS 예상 요금표 (참고용)</h3>
-  <table>
-    <tr><th>무게 (kg)</th><th>예상 배송비 (AUD)</th></tr>
-    <tr><td>0.5</td><td>$32.20</td></tr>
-    <tr><td>1.0</td><td>$40.25</td></tr>
-    <tr><td>2.0</td><td>$51.75</td></tr>
-    <tr><td>3.0</td><td>$63.25</td></tr>
-    <tr><td>4.0</td><td>$74.75</td></tr>
-    <tr><td>5.0</td><td>$86.25</td></tr>
-    <tr><td>6.0</td><td>$97.75</td></tr>
-    <tr><td>7.0</td><td>$109.25</td></tr>
-    <tr><td>8.0</td><td>$120.75</td></tr>
-    <tr><td>9.0</td><td>$132.25</td></tr>
-    <tr><td>10.0</td><td>$143.75</td></tr>
-  </table>
+  <div class="row">
+    <table>
+      <tr><th colspan="2">📦 한국 → 호주 EMS 요금표</th></tr>
+      <tr><th>무게 (kg)</th><th>요금 (AUD)</th></tr>
+      ${Object.entries(emsRates).map(([kg, price]) => `<tr><td>${kg}</td><td>$${price.toFixed(2)}</td></tr>`).join('')}
+    </table>
+
+    <table>
+      <tr><th colspan="2">🚚 호주내 배송 요금표</th></tr>
+      <tr><th>무게 (kg)</th><th>요금 (AUD)</th></tr>
+      ${Object.entries(aus_shipping_rates).map(([kg, price]) => `<tr><td>${kg}</td><td>$${price.toFixed(2)}</td></tr>`).join('')}
+    </table>
+  </div>
 </body>
 </html>
