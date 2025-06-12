@@ -64,11 +64,11 @@
     <label>원가 ($):</label>
     <input type="number" id="cost" placeholder="예: 90" />
 
-    <label>배송비 ($):</label>
-    <input type="number" id="shipping" placeholder="예: 10" />
-
     <label>디자인비 ($):</label>
     <input type="number" id="design" placeholder="예: 20" />
+
+    <label>무게 (kg):</label>
+    <input type="number" id="weight" placeholder="예: 3" step="0.1" />
 
     <button onclick="calculate()">계산하기</button>
 
@@ -84,17 +84,33 @@
       else return 0.4;
     }
 
+    function getShippingCost(weight) {
+      if (weight <= 1) return 14.80;
+      else if (weight <= 2) return 17.14;
+      else if (weight <= 3) return 19.82;
+      else if (weight <= 6) return 24.56;
+      else if (weight <= 11) return 32.83;
+      else if (weight <= 17) return 43.47;
+      else return null;
+    }
+
     function calculate() {
       const cost = parseFloat(document.getElementById('cost').value) || 0;
       const design = parseFloat(document.getElementById('design').value) || 0;
-      const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+      const weight = parseFloat(document.getElementById('weight').value) || 0;
+
+      const shipping = getShippingCost(weight);
+      if (shipping === null) {
+        document.getElementById("result").innerText = "⚠️ 17kg 초과 배송은 직접 입력 바랍니다.";
+        return;
+      }
 
       const baseCost = cost + design;
       const marginRate = getMarginRate(baseCost);
       const finalPrice = baseCost * (1 + marginRate) + shipping;
 
       document.getElementById("result").innerText =
-        `원가: $${cost.toFixed(2)}, 디자인비: $${design.toFixed(2)}, 마진: ${Math.round(marginRate * 100)}%, 배송비: $${shipping.toFixed(2)}\n👉 소비자 가격: $${finalPrice.toFixed(2)}`;
+        `원가: $${cost.toFixed(2)}, 디자인비: $${design.toFixed(2)}, 무게: ${weight.toFixed(1)}kg, 배송비: $${shipping.toFixed(2)}\n마진: ${Math.round(marginRate * 100)}%\n👉 소비자 가격: $${finalPrice.toFixed(2)}`;
     }
   </script>
 </body>
