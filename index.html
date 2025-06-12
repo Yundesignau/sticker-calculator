@@ -1,46 +1,100 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <title>스티커 마진 계산기</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background-color: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .calculator {
+      background: white;
+      padding: 30px 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    input {
+      padding: 12px;
+      margin: 8px 0;
+      width: 100%;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 15px;
+      padding: 14px;
+      width: 100%;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    h3 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+    h4 {
+      margin-top: 20px;
+      white-space: pre-line;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
-  <h3>스티커 마진 계산기</h3>
+  <div class="calculator">
+    <h3>스티커 마진 계산기</h3>
 
-  <label>원가 ($):</label>
-  <input type="number" id="cost" /><br><br>
+    <label>원가 ($):</label>
+    <input type="number" id="cost" placeholder="예: 90" />
 
-  <label>배송비 ($):</label>
-  <input type="number" id="shipping" /><br><br>
+    <label>디자인비 ($):</label>
+    <input type="number" id="design" placeholder="예: 20" />
 
-  <button onclick="calculate()">계산하기</button>
+    <label>배송비 ($):</label>
+    <input type="number" id="shipping" placeholder="예: 10" />
 
-  <h4 id="result"></h4>
+    <button onclick="calculate()">계산하기</button>
+
+    <h4 id="result"></h4>
+  </div>
 
   <script>
-    function getMarginRate(cost) {
-      if (cost < 100) return 0.8;
-      else if (cost < 200) return 0.7;
-      else if (cost < 300) return 0.6;
-      else if (cost < 400) return 0.5;
+    function getMarginRate(totalCost) {
+      if (totalCost < 100) return 0.8;
+      else if (totalCost < 200) return 0.7;
+      else if (totalCost < 300) return 0.6;
+      else if (totalCost < 400) return 0.5;
       else return 0.4;
     }
 
     function calculate() {
-      const cost = parseFloat(document.getElementById('cost').value);
-      const shipping = parseFloat(document.getElementById('shipping').value);
+      const cost = parseFloat(document.getElementById('cost').value) || 0;
+      const design = parseFloat(document.getElementById('design').value) || 0;
+      const shipping = parseFloat(document.getElementById('shipping').value) || 0;
 
-      if (isNaN(cost) || isNaN(shipping)) {
-        document.getElementById("result").innerText = "숫자를 입력해주세요.";
-        return;
-      }
-
-      const marginRate = getMarginRate(cost);
-      const finalPrice = cost * (1 + marginRate) + shipping;
+      const baseCost = cost + design;
+      const marginRate = getMarginRate(baseCost);
+      const finalPrice = baseCost * (1 + marginRate) + shipping;
 
       document.getElementById("result").innerText =
-        `원가: $${cost.toFixed(2)}, 마진: ${Math.round(marginRate * 100)}%, 배송비: $${shipping.toFixed(2)}\n👉 소비자 가격: $${finalPrice.toFixed(2)}`;
+        `원가: $${cost.toFixed(2)}, 디자인비: $${design.toFixed(2)}, 마진: ${Math.round(marginRate * 100)}%, 배송비: $${shipping.toFixed(2)}\n👉 소비자 가격: $${finalPrice.toFixed(2)}`;
     }
   </script>
 </body>
