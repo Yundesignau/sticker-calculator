@@ -57,7 +57,16 @@
     .col {
       flex: 1;
     }
-  </style>
+  
+input[type=number] {
+  margin-bottom: 4px !important;
+}
+label {
+  margin-bottom: 2px;
+  display: inline-block;
+  font-size: 14px;
+}
+</style>
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -116,7 +125,7 @@ table {
 <input id="ausShipping" type="number"/>
 </div>
 </div>
-<button onclick="calculate()">계산하기</button><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"><img alt="Stripe" src="https://stripe.com/img/v3/home/twitter.png" style="margin-top:10px;" width="150"/></a></div>
+<button onclick="calculate()">계산하기</button><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"><img alt="Stripe" src="https://stripe.com/img/v3/payments/overview/logos/stripe-logo-blue.png" style="margin-top: 10px; max-width: 100%; height: auto;" width="160"/></a></div>
 <h4 id="result"></h4>
 <script>
     const emsRates = {
@@ -198,7 +207,6 @@ table {
 </style>
 <div class="table-container">
 <div class="table-box">
-<h4>항공 배송비 (호주 → 한국)</h4>
 <table>
 <tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
 <tr><td>0.5</td><td>32.20</td></tr>
@@ -215,7 +223,6 @@ table {
 </table>
 </div>
 <div class="table-box">
-<h4>호주내 배송비</h4>
 <table>
 <tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
 <tr><td>0.5</td><td>9.70</td></tr>
@@ -234,11 +241,9 @@ table {
 </div>
 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
 <div>
-<h4>항공 배송비 (한국 → 호주)</h4>
 </div>
 <div>
 </div>
 </div>
-
 </body>
 </html>
