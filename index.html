@@ -58,7 +58,36 @@
       flex: 1;
     }
   </style>
-</head>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+input[type=number] {
+  width: 200px;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+button {
+  background-color: #e0134f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+h4#result {
+  margin-top: 30px;
+  font-size: 20px;
+  line-height: 1.6;
+}
+table {
+  width: 100%;
+  font-size: 14px;
+}
+</style></head>
 <body>
 <h2>Yundesign 견적 계산기</h2>
 <div class="row">
@@ -87,7 +116,7 @@
 <input id="ausShipping" type="number"/>
 </div>
 </div>
-<button onclick="calculate()">계산하기</button>
+<button onclick="calculate()">계산하기</button><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"><img alt="Stripe" src="https://stripe.com/img/v3/home/twitter.png" style="margin-top:10px;" width="150"/></a></div>
 <h4 id="result"></h4>
 <script>
     const emsRates = {
@@ -203,21 +232,13 @@
 </table>
 </div>
 </div>
-
 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
 <div>
 <h4>항공 배송비 (한국 → 호주)</h4>
-
 </div>
 <div>
-<h4>호주내 배송비</h4>
+</div>
+</div>
 
-</div>
-</div>
-<div style="margin-top: 30px;">
-<a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank">
-<img alt="Pay with Stripe" src="https://stripe.com/img/v3/newsroom/social.png" width="180"/>
-</a>
-</div>
 </body>
 </html>
