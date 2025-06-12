@@ -81,6 +81,12 @@ input[type=number] {
   margin-bottom: 8px;
   font-size: 14px;
 }
+
+@media screen and (max-width: 600px) {
+  input[type=number] {
+    width: 48% !important;
+  }
+}
 </style>
 <style>
 body {
@@ -113,7 +119,7 @@ table {
 }
 </style></head>
 <body>
-<form><button onclick="calculate()">계산하기</button><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"><img alt="Stripe" src="https://stripe.com/img/v3/payments/overview/logos/stripe-logo-blue.png" style="margin-top: 10px; max-width: 100%; height: auto;" width="160"/></a></div></form><h2>Yundesign 견적 계산기</h2>
+<form><button onclick="calculate()">계산하기</button><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"><img alt="Stripe" src="Stripe_Logo%2C_revised_2016.webp" style="margin-top: 10px; max-width: 100%; height: auto;" width="140"/></a></div></form><h2>Yundesign 견적 계산기</h2>
 <div class="row">
 <div class="col">
 <label>원가 ($)</label>
@@ -140,7 +146,6 @@ table {
 <input id="ausShipping" type="number"/>
 </div>
 </div>
-
 <h4 id="result"></h4>
 <script>
     const emsRates = {
