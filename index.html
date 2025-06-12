@@ -156,7 +156,7 @@ table {
 }
 </style></head>
 <body>
-<form><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"></a></div><div class="form-row"><button onclick="calculate()">계산하기</button></div><div class="form-row"><img alt="Stripe" src="Stripe_Logo%2C_revised_2016.webp" style="margin-top: 10px; max-width: 100%; height: auto;" width="140"/></div></form><h2>Yundesign 견적 계산기</h2>
+<form><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"></a></div><div class="form-row" style="text-align: center;"><label for="cost">원가 ($)</label><br/><input id="cost" step="0.01" style="width: 200px; margin-bottom: 10px;" type="number"/></div><div class="form-row" style="text-align: center;"><label for="design">디자인비용 ($)</label><br/><input id="design" step="0.01" style="width: 200px; margin-bottom: 10px;" type="number"/></div><div class="form-row" style="text-align: center;"><label for="weight">무게 (kg)</label><br/><input id="weight" step="0.01" style="width: 200px; margin-bottom: 10px;" type="number"/></div><button onclick="calculate()" style="padding: 10px 20px; background-color: #e0134f; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;" type="button">계산하기</button></form><h2>Yundesign 견적 계산기</h2>
 <div class="row">
 <div class="col">
 <label>원가 ($)</label>
@@ -185,60 +185,59 @@ table {
 </div>
 <h4 id="result"></h4>
 <script>
-    const emsRates = {
-      0.5: 32.20, 1: 40.25, 2: 51.75, 3: 63.25, 4: 74.75,
-      5: 86.25, 6: 97.75, 7: 109.25, 8: 120.75, 9: 132.25, 10: 143.75
-    };
-    const ausRates = {
-      0.5: 8.50, 1: 10.00, 2: 12.00, 3: 14.00, 4: 16.00,
-      5: 18.00, 6: 20.00, 7: 22.00, 8: 24.00, 9: 26.00, 10: 28.00
-    };
+function getKoreaShipping(weight) {
+  if (weight <= 0) return 0;
+  if (weight <= 0.5) return 9.5;
+  if (weight <= 1) return 15.5;
+  if (weight <= 1.5) return 21.5;
+  if (weight <= 2) return 27.5;
+  if (weight <= 2.5) return 33.5;
+  if (weight <= 3) return 39.5;
+  if (weight <= 3.5) return 45.5;
+  if (weight <= 4) return 51.5;
+  if (weight <= 4.5) return 57.5;
+  return 63.5;
+}
 
-    function getShippingCost(weight, rates) {
-      let closest = 0;
-      for (let w in rates) {
-        if (weight <= parseFloat(w)) {
-          closest = w;
-          break;
-        }
-      }
-      return closest > 0 ? rates[closest] : 0;
-    }
+function getAusShipping(weight) {
+  if (weight <= 0) return 0;
+  if (weight <= 0.5) return 6.5;
+  if (weight <= 1) return 9.5;
+  if (weight <= 1.5) return 12.5;
+  if (weight <= 2) return 15.5;
+  if (weight <= 2.5) return 18.5;
+  if (weight <= 3) return 21.5;
+  if (weight <= 3.5) return 24.5;
+  if (weight <= 4) return 27.5;
+  if (weight <= 4.5) return 30.5;
+  return 33.5;
+}
 
-    function getMarginRate(baseCost) {
-      if (baseCost < 100) return 0.8;
-      else if (baseCost < 200) return 0.7;
-      else if (baseCost < 300) return 0.6;
-      else if (baseCost < 400) return 0.5;
-      else return 0.4;
-    }
+function calculate() {
+  const cost = parseFloat(document.getElementById('cost').value);
+  const design = parseFloat(document.getElementById('design').value);
+  const weight = parseFloat(document.getElementById('weight').value);
 
-    function autofillShipping() {
-      const weight = parseFloat(document.getElementById("weight").value);
-      if (!isNaN(weight)) {
-        const intl = getShippingCost(weight, emsRates);
-        const aus = getShippingCost(weight, ausRates);
-        document.getElementById("intlShipping").value = intl;
-        document.getElementById("ausShipping").value = aus;
-      }
-    }
+  if (isNaN(cost) || isNaN(design) || isNaN(weight)) {
+    document.getElementById("result").innerText = "모든 항목을 입력해주세요.";
+    return;
+  }
 
-    function calculate() {
-      const cost = parseFloat(document.getElementById('cost').value) || 0;
-      const design = parseFloat(document.getElementById('design').value) || 0;
-      const intlShipping = parseFloat(document.getElementById('intlShipping').value) || 0;
-      const ausShipping = parseFloat(document.getElementById('ausShipping').value) || 0;
+  let marginRate = 0.8;
+  if (cost >= 100 && cost < 200) marginRate = 0.7;
+  else if (cost >= 200 && cost < 300) marginRate = 0.6;
+  else if (cost >= 300 && cost < 400) marginRate = 0.5;
+  else if (cost >= 400) marginRate = 0.4;
 
-      const baseCost = cost + design;
-      const marginRate = getMarginRate(baseCost);
-      const shippingTotal = (intlShipping > 0 ? intlShipping : 0) + (ausShipping > 0 ? ausShipping : 0);
-      const finalPrice = baseCost * (1 + marginRate) + shippingTotal;
+  const koreaShipping = getKoreaShipping(weight);
+  const ausShipping = getAusShipping(weight);
 
-      document.getElementById('result').innerText =
-        `원가: $${cost.toFixed(2)}, 디자인비: $${design.toFixed(2)}, 배송비 총합: $${shippingTotal.toFixed(2)}
-👉 최종 가격: $${finalPrice.toFixed(2)}`;
-    }
-  </script>
+  const finalPrice = (cost + design) * (1 + marginRate) + koreaShipping + ausShipping;
+
+  document.getElementById("result").innerText =
+    `👉 소비자 가격: $${finalPrice.toFixed(2)} (항공: $${koreaShipping.toFixed(2)}, 호주내: $${ausShipping.toFixed(2)})`;
+}
+</script>
 <style>
   .table-container {
     display: flex;
