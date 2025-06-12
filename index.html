@@ -1,11 +1,10 @@
 
 <!DOCTYPE html>
-
-<html>
+<html lang="ko">
 <head>
-<meta charset="utf-8"/>
-<title>Yundesign 견적 계산기</title>
-<style>
+  <meta charset="UTF-8">
+  <title>Yundesign 견적 계산기</title>
+  <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
@@ -13,293 +12,111 @@
       max-width: 700px;
       margin: auto;
     }
-    input {
-      padding: 8px;
-      width: 100%;
-      margin-bottom: 10px;
-      font-size: 16px;
-      box-sizing: border-box;
+    .form-row {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      width: 200px;
+      padding: 6px;
+      font-size: 15px;
     }
     button {
-      padding: 12px 24px;
+      padding: 10px 20px;
       background-color: #e0134f;
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
       margin-top: 10px;
     }
-    table {
-      width: 48%;
-      border-collapse: collapse;
-      margin: 20px 1%;
-      display: inline-block;
-      vertical-align: top;
+    .result-box {
+      margin-top: 20px;
+      border: 2px solid #e0134f;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
     }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      font-size: 14px;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    h2 {
-      margin-bottom: 5px;
-    }
-    .row {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 10px;
-    }
-    .col {
-      flex: 1;
-    }
-  
-input[type=number] {
-  margin-bottom: 4px !important;
-}
-label {
-  margin-bottom: 2px;
-  display: inline-block;
-  font-size: 14px;
-}
-
-form {
-  text-align: center;
-}
-label {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 2px;
-}
-input[type=number] {
-  width: 150px;
-  padding: 6px;
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-
-@media screen and (max-width: 600px) {
-  input[type=number] {
-    width: 48% !important;
-  }
-}
-
-.form-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 12px;
-}
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-@media screen and (max-width: 600px) {
-  input[type=number] {
-    width: 80% !important;
-  }
-}
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.form-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-table {
-  margin: 20px auto;
-  text-align: center;
-}
-th, td {
-  padding: 8px;
-}
-</style>
-<style>
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
-}
-input[type=number] {
-  width: 200px;
-  padding: 8px;
-  margin-bottom: 10px;
-}
-button {
-  background-color: #e0134f;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-h4#result {
-  margin-top: 30px;
-  font-size: 20px;
-  line-height: 1.6;
-}
-table {
-  width: 100%;
-  font-size: 14px;
-}
-</style></head>
+  </style>
+</head>
 <body>
-<form><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"></a></div><div class="form-row" style="text-align: center;"><label for="cost">원가 ($)</label><br/><input id="cost" step="0.01" style="width: 200px; margin-bottom: 10px;" type="number"/></div><div class="form-row" style="text-align: center;"><label for="design">디자인비용 ($)</label><br/><input id="design" step="0.01" style="width: 200px; margin-bottom: 10px;" type="number"/></div><div class="form-row" style="text-align: center;"><label for="weight">무게 (kg)</label><br/><input id="weight" step="0.01" style="width: 200px; margin-bottom: 10px;" type="number"/></div><button onclick="calculate()" style="padding: 10px 20px; background-color: #e0134f; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;" type="button">계산하기</button></form><h2>Yundesign 견적 계산기</h2>
-<div class="row">
-<div class="col">
-<label>원가 ($)</label>
-<input id="cost" type="number"/>
-</div>
-<div class="col">
-<label>디자인비 ($)</label>
-<input id="design" type="number"/>
-</div>
-</div>
-<div class="row">
-<div class="col">
-<label>무게 (kg)</label>
-<input id="weight" onchange="autofillShipping()" step="0.1" type="number"/>
-</div>
-</div>
-<div class="row">
-<div class="col">
-<label>항공배송비 (한국 → 호주) ($)</label>
-<input id="intlShipping" type="number"/>
-</div>
-<div class="col">
-<label>호주내 배송비 ($)</label>
-<input id="ausShipping" type="number"/>
-</div>
-</div>
-<h4 id="result"></h4>
-<script>
-function getKoreaShipping(weight) {
-  if (weight <= 0) return 0;
-  if (weight <= 0.5) return 9.5;
-  if (weight <= 1) return 15.5;
-  if (weight <= 1.5) return 21.5;
-  if (weight <= 2) return 27.5;
-  if (weight <= 2.5) return 33.5;
-  if (weight <= 3) return 39.5;
-  if (weight <= 3.5) return 45.5;
-  if (weight <= 4) return 51.5;
-  if (weight <= 4.5) return 57.5;
-  return 63.5;
-}
 
-function getAusShipping(weight) {
-  if (weight <= 0) return 0;
-  if (weight <= 0.5) return 6.5;
-  if (weight <= 1) return 9.5;
-  if (weight <= 1.5) return 12.5;
-  if (weight <= 2) return 15.5;
-  if (weight <= 2.5) return 18.5;
-  if (weight <= 3) return 21.5;
-  if (weight <= 3.5) return 24.5;
-  if (weight <= 4) return 27.5;
-  if (weight <= 4.5) return 30.5;
-  return 33.5;
-}
+  <h2>Yundesign 견적 계산기</h2>
 
-function calculate() {
-  const cost = parseFloat(document.getElementById('cost').value);
-  const design = parseFloat(document.getElementById('design').value);
-  const weight = parseFloat(document.getElementById('weight').value);
+  <form onsubmit="event.preventDefault(); calculate();">
+    <div class="form-row">
+      <label for="cost">원가 ($)</label>
+      <input type="number" id="cost" step="0.01">
+    </div>
 
-  if (isNaN(cost) || isNaN(design) || isNaN(weight)) {
-    document.getElementById("result").innerText = "모든 항목을 입력해주세요.";
-    return;
-  }
+    <div class="form-row">
+      <label for="design">디자인비용 ($)</label>
+      <input type="number" id="design" step="0.01">
+    </div>
 
-  let marginRate = 0.8;
-  if (cost >= 100 && cost < 200) marginRate = 0.7;
-  else if (cost >= 200 && cost < 300) marginRate = 0.6;
-  else if (cost >= 300 && cost < 400) marginRate = 0.5;
-  else if (cost >= 400) marginRate = 0.4;
+    <div class="form-row">
+      <label for="weight">배송 무게 (kg)</label>
+      <input type="number" id="weight" step="0.1">
+    </div>
 
-  const koreaShipping = getKoreaShipping(weight);
-  const ausShipping = getAusShipping(weight);
+    <button type="submit">계산하기</button>
 
-  const finalPrice = (cost + design) * (1 + marginRate) + koreaShipping + ausShipping;
+    <div id="result" class="result-box"></div>
+  </form>
 
-  document.getElementById("result").innerText =
-    `👉 소비자 가격: $${finalPrice.toFixed(2)} (항공: $${koreaShipping.toFixed(2)}, 호주내: $${ausShipping.toFixed(2)})`;
-}
-</script>
-<style>
-  .table-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
-  }
-  .table-box {
-    flex: 1 1 300px;
-    max-width: 500px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  th, td {
-    border: 1px solid #ccc;
-    padding: 6px;
-    text-align: center;
-  }
-</style>
-<div class="table-container">
-<div class="table-box">
-<div style="text-align:center; font-weight:bold; margin-top:20px;">📦 한국 → 호주 배송 요금표</div><table>
-<tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
-<tr><td>0.5</td><td>32.20</td></tr>
-<tr><td>1</td><td>40.25</td></tr>
-<tr><td>2</td><td>51.75</td></tr>
-<tr><td>3</td><td>63.25</td></tr>
-<tr><td>4</td><td>74.75</td></tr>
-<tr><td>5</td><td>86.25</td></tr>
-<tr><td>6</td><td>97.75</td></tr>
-<tr><td>7</td><td>109.25</td></tr>
-<tr><td>8</td><td>120.75</td></tr>
-<tr><td>9</td><td>132.25</td></tr>
-<tr><td>10</td><td>143.75</td></tr>
-</table>
-</div>
-<div class="table-box">
-<div style="text-align:center; font-weight:bold; margin-top:20px;">📮 호주 내 배송 요금표</div><table>
-<tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
-<tr><td>0.5</td><td>9.70</td></tr>
-<tr><td>1</td><td>12.45</td></tr>
-<tr><td>2</td><td>15.70</td></tr>
-<tr><td>3</td><td>18.95</td></tr>
-<tr><td>4</td><td>22.20</td></tr>
-<tr><td>5</td><td>25.45</td></tr>
-<tr><td>6</td><td>28.70</td></tr>
-<tr><td>7</td><td>31.95</td></tr>
-<tr><td>8</td><td>35.20</td></tr>
-<tr><td>9</td><td>38.45</td></tr>
-<tr><td>10</td><td>41.70</td></tr>
-</table>
-</div>
-</div>
-<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
-<div>
-</div>
-<div>
-</div>
-</div>
+  <script>
+    function getKoreaShipping(weight) {
+      if (weight <= 0.5) return 32.20;
+      if (weight <= 1) return 40.25;
+      if (weight <= 2) return 51.75;
+      if (weight <= 3) return 63.25;
+      if (weight <= 4) return 74.75;
+      if (weight <= 5) return 86.25;
+      if (weight <= 6) return 97.75;
+      if (weight <= 7) return 109.25;
+      if (weight <= 8) return 120.75;
+      if (weight <= 9) return 132.25;
+      if (weight <= 10) return 143.75;
+      return 0;
+    }
+
+    function getAusShipping(weight) {
+      if (weight <= 1) return 14.80;
+      if (weight <= 2) return 17.14;
+      if (weight <= 3) return 19.82;
+      if (weight <= 6) return 24.56;
+      if (weight <= 11) return 32.83;
+      if (weight <= 17) return 43.47;
+      return 0;
+    }
+
+    function calculate() {
+      const cost = parseFloat(document.getElementById('cost').value) || 0;
+      const design = parseFloat(document.getElementById('design').value) || 0;
+      const weight = parseFloat(document.getElementById('weight').value) || 0;
+
+      let marginRate = 0.8;
+      if (cost >= 100 && cost < 200) marginRate = 0.7;
+      else if (cost >= 200 && cost < 300) marginRate = 0.6;
+      else if (cost >= 300 && cost < 400) marginRate = 0.5;
+      else if (cost >= 400) marginRate = 0.4;
+
+      const koreaShipping = getKoreaShipping(weight);
+      const ausShipping = getAusShipping(weight);
+
+      const finalPrice = (cost + design) * (1 + marginRate) + koreaShipping + ausShipping;
+
+      document.getElementById('result').innerText =
+        `최종 소비자 가격: $${finalPrice.toFixed(2)}
+(항공배송: $${koreaShipping.toFixed(2)} + 호주내 배송: $${ausShipping.toFixed(2)})`;
+    }
+  </script>
+
 </body>
 </html>
