@@ -99,6 +99,23 @@ form {
   flex-direction: column;
   align-items: center;
 }
+
+@media screen and (max-width: 600px) {
+  input[type=number] {
+    width: 80% !important;
+  }
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
 </style>
 <style>
 body {
@@ -131,7 +148,7 @@ table {
 }
 </style></head>
 <body>
-<form><button onclick="calculate()">계산하기</button><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"><img alt="Stripe" src="Stripe_Logo%2C_revised_2016.webp" style="margin-top: 10px; max-width: 100%; height: auto;" width="140"/></a></div></form><h2>Yundesign 견적 계산기</h2>
+<form><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"></a></div><div class="form-row"><button onclick="calculate()">계산하기</button></div><div class="form-row"><img alt="Stripe" src="Stripe_Logo%2C_revised_2016.webp" style="margin-top: 10px; max-width: 100%; height: auto;" width="140"/></div></form><h2>Yundesign 견적 계산기</h2>
 <div class="row">
 <div class="col">
 <label>원가 ($)</label>
