@@ -1,10 +1,11 @@
 
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>Yundesign 견적 계산기</title>
-  <style>
+<meta charset="utf-8"/>
+<title>Yundesign 견적 계산기</title>
+<style>
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
@@ -46,31 +47,24 @@
   </style>
 </head>
 <body>
-
-  <h2>Yundesign 견적 계산기</h2>
-
-  <form onsubmit="event.preventDefault(); calculate();">
-    <div class="form-row">
-      <label for="cost">원가 ($)</label>
-      <input type="number" id="cost" step="0.01">
-    </div>
-
-    <div class="form-row">
-      <label for="design">디자인비용 ($)</label>
-      <input type="number" id="design" step="0.01">
-    </div>
-
-    <div class="form-row">
-      <label for="weight">배송 무게 (kg)</label>
-      <input type="number" id="weight" step="0.1">
-    </div>
-
-    <button type="submit">계산하기</button>
-
-    <div id="result" class="result-box"></div>
-  </form>
-
-  <script>
+<h2>Yundesign 견적 계산기</h2>
+<form onsubmit="event.preventDefault(); calculate();">
+<div class="form-row">
+<label for="cost">원가 ($)</label>
+<input id="cost" step="0.01" type="number"/>
+</div>
+<div class="form-row">
+<label for="design">디자인비용 ($)</label>
+<input id="design" step="0.01" type="number"/>
+</div>
+<div class="form-row">
+<label for="weight">배송 무게 (kg)</label>
+<input id="weight" step="0.1" type="number"/>
+</div>
+<button type="submit">계산하기</button>
+<div class="result-box" id="result"></div><div style="margin-top: 20px; text-align: center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"><img alt="Stripe" src="https://stripe.com/img/v3/newsroom/social.png" style="width: 140px;"/></a></div><div style="margin-top:20px; text-align:center;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"></a></div><div style="margin-top:20px;"><a href="https://buy.stripe.com/fZe2bB6Ff4x22rK000" target="_blank"></a></div>
+</form>
+<script>
     function getKoreaShipping(weight) {
       if (weight <= 0.5) return 32.20;
       if (weight <= 1) return 40.25;
@@ -117,6 +111,30 @@
 (항공배송: $${koreaShipping.toFixed(2)} + 호주내 배송: $${ausShipping.toFixed(2)})`;
     }
   </script>
-
+<h3 style="margin-top:40px;">📦 한국 → 호주 배송 요금표</h3>
+<table border="1" style="margin: 0 auto; border-collapse: collapse;">
+<tr><th>무게 (kg)</th><th>요금 ($)</th></tr>
+<tr><td>0.5</td><td>32.20</td></tr>
+<tr><td>1</td><td>40.25</td></tr>
+<tr><td>2</td><td>51.75</td></tr>
+<tr><td>3</td><td>63.25</td></tr>
+<tr><td>4</td><td>74.75</td></tr>
+<tr><td>5</td><td>86.25</td></tr>
+<tr><td>6</td><td>97.75</td></tr>
+<tr><td>7</td><td>109.25</td></tr>
+<tr><td>8</td><td>120.75</td></tr>
+<tr><td>9</td><td>132.25</td></tr>
+<tr><td>10</td><td>143.75</td></tr>
+</table>
+<h3 style="margin-top:30px;">🚚 호주 내 배송 요금표 (Australia Post 기준)</h3>
+<table border="1" style="margin: 0 auto; border-collapse: collapse;">
+<tr><th>사이즈</th><th>무게</th><th>규격</th><th>요금 ($)</th></tr>
+<tr><td>1호</td><td>1KG</td><td>22*19*9 (50CM)</td><td>14.80</td></tr>
+<tr><td>2호</td><td>2KG</td><td>27*18*15 (60CM)</td><td>17.14</td></tr>
+<tr><td>3호</td><td>3KG</td><td>34*25*21 (80CM)</td><td>19.82</td></tr>
+<tr><td>4호</td><td>6KG</td><td>41*31*28 (100CM)</td><td>24.56</td></tr>
+<tr><td>5호</td><td>11KG</td><td>48*38*34 (120CM)</td><td>32.83</td></tr>
+<tr><td>6호</td><td>17KG</td><td>52*48*40 (140CM)</td><td>43.47</td></tr>
+</table>
 </body>
 </html>
